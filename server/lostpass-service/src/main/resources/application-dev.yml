@@ -1,0 +1,15 @@
+server:
+  port: 8081
+
+
+spring:
+  datasource:
+    username: lostpass
+    password: 123456
+    url: jdbc:mysql://localhost:3306/server_lostpass?serverTimezone=Asia/Shanghai&Unicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+logging:
+  level:
+    cn.ligen.server.lostpass.service: DEBUG
+    cn.ligen.server.lostpass.mapper: DEBUG
