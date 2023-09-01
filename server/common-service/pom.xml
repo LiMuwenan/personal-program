@@ -16,7 +16,7 @@
 
 	<packaging>pom</packaging>
 	<modules>
-		<module>common-core</module>
+		<module>common-util</module>
 	</modules>
 
 	<properties>

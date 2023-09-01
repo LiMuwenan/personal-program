@@ -50,7 +50,7 @@
 <!--    其他模块包-->
         <dependency>
             <groupId>cn.ligen.server</groupId>
-            <artifactId>common-core</artifactId>
+            <artifactId>common-util</artifactId>
             <version>v0.0.1</version>
         </dependency>
 <!--        工具包-->

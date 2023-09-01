@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.ligen.server</groupId>
-    <artifactId>common-core</artifactId>
+    <artifactId>common-util</artifactId>
     <version>v0.0.1</version>
-    <name>common-core</name>
-    <description>common-core</description>
+    <name>common-util</name>
+    <description>common-util</description>
     <properties>
         <java.version>17</java.version>
     </properties>
