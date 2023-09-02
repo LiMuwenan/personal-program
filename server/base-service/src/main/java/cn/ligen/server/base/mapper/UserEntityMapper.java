@@ -1,6 +1,6 @@
 package cn.ligen.server.base.mapper;
 
-import cn.ligen.server.base.entity.User;
+import cn.ligen.server.base.entity.UserEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @description
  */
 @Mapper
-public interface UserMapper extends BaseMapper<User> {
+public interface UserEntityMapper extends BaseMapper<UserEntity> {
 }

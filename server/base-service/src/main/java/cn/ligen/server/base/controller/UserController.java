@@ -1,7 +1,8 @@
 package cn.ligen.server.base.controller;
 
+import cn.ligen.server.base.entity.mapper.UserEntityStruct;
 import cn.ligen.server.common.util.CommonResult;
-import cn.ligen.server.base.entity.User;
+import cn.ligen.server.base.entity.UserEntity;
 import cn.ligen.server.base.entity.dto.UserDto;
 import cn.ligen.server.base.entity.vo.UserVo;
 import cn.ligen.server.base.service.UserService;
@@ -26,23 +27,13 @@ public class UserController {
     @Operation(summary = "用户注册")
     @PostMapping("/register")
     public CommonResult<UserVo> userRegister(@RequestBody UserDto userDto) {
-        // todo userdto==》user
-        User user = new User()
-                .setUsername(userDto.getUsername())
-                .setNickName(userDto.getNickName())
-                .setPhone(userDto.getPhone())
-                .setEmail(userDto.getEmail());
-        // todo 处理
-        User newUser = userService.create(user, userDto.getPassword());
 
-        // todo user==>userVo
-        UserVo userVo = new UserVo()
-                .setId(newUser.getId())
-                .setHeader(newUser.getHeader())
-                .setPhone(newUser.getPhone())
-                .setUsername(newUser.getUsername())
-                .setEmail(newUser.getEmail())
-                .setNickName(newUser.getNickName());
+        UserEntity user = UserEntityStruct.INSTANCE.toEntity(userDto);
+
+        UserEntity newUser = userService.create(user, userDto.getPassword());
+
+        UserVo userVo = UserEntityStruct.INSTANCE.toVo(newUser);
+
         return CommonResult.success(userVo);
     }
 }

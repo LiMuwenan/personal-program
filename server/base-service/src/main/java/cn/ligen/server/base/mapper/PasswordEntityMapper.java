@@ -1,6 +1,6 @@
 package cn.ligen.server.base.mapper;
 
-import cn.ligen.server.base.entity.Password;
+import cn.ligen.server.base.entity.PasswordEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @description 操作密码实体类
  */
 @Mapper
-public interface PasswordMapper extends BaseMapper<Password> {
+public interface PasswordEntityMapper extends BaseMapper<PasswordEntity> {
 }

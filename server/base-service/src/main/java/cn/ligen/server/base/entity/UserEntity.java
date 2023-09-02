@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 @TableName("sys_users")
-public class User {
+public class UserEntity {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;

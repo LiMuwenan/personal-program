@@ -1,10 +1,10 @@
 package cn.ligen.server.base.service.impl;
 
 import cn.ligen.server.common.util.UserUtil;
-import cn.ligen.server.base.entity.Password;
-import cn.ligen.server.base.entity.User;
-import cn.ligen.server.base.mapper.PasswordMapper;
-import cn.ligen.server.base.mapper.UserMapper;
+import cn.ligen.server.base.entity.PasswordEntity;
+import cn.ligen.server.base.entity.UserEntity;
+import cn.ligen.server.base.mapper.PasswordEntityMapper;
+import cn.ligen.server.base.mapper.UserEntityMapper;
 import cn.ligen.server.base.service.UserService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -26,42 +26,42 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserMapper userMapper;
-    private final PasswordMapper passwordMapper;
+    private final UserEntityMapper userMapper;
+    private final PasswordEntityMapper passwordMapper;
 
     @Value("${user.headerUrl}")
     private String headerBaseUrl;
 
     @Override
-    public List<User> queryUserlist(User user, Page<User> page) {
+    public List<UserEntity> queryUserlist(UserEntity userEntity, Page<UserEntity> page) {
         return null;
     }
 
     @Override
-    public User queryUser(User user, Page<User> page) {
+    public UserEntity queryUser(UserEntity userEntity, Page<UserEntity> page) {
         return null;
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public User create(User user, String password) {
+    public UserEntity create(UserEntity userEntity, String password) {
         LocalDateTime now = LocalDateTime.now();
-        user.setCreateTime(now);
-        user.setUpdateTime(now);
+        userEntity.setCreateTime(now);
+        userEntity.setUpdateTime(now);
         // 随机头像
-        user.setHeader(UserUtil.genHeaderUrl(headerBaseUrl));
-        userMapper.insert(user);
-        Password newPass = new Password()
+        userEntity.setHeader(UserUtil.genHeaderUrl(headerBaseUrl));
+        userMapper.insert(userEntity);
+        PasswordEntity newPass = new PasswordEntity()
                 .setCreateTime(now)
                 .setUpdateTime(now)
-                .setUserId(user.getId())
+                .setUserId(userEntity.getId())
                 .setPassword(password);
         passwordMapper.insert(newPass);
-        return user;
+        return userEntity;
     }
 
     @Override
-    public Boolean updateUser(User user) {
+    public Boolean updateUser(UserEntity userEntity) {
         return null;
     }
 

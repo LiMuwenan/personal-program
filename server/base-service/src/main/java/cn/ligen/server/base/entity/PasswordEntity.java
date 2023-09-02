@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 @TableName("sys_pass")
-public class Password {
+public class PasswordEntity {
 
     @TableId
     private Integer userId;
