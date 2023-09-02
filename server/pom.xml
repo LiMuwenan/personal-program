@@ -16,7 +16,7 @@
 
     <packaging>pom</packaging>
     <modules>
-        <module>lostpass-service</module>
+        <module>base-service</module>
         <module>common-service</module>
     </modules>
 
