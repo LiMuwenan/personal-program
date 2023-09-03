@@ -3,8 +3,8 @@ package cn.ligen.server.base.service.impl;
 import cn.ligen.server.common.util.UserUtil;
 import cn.ligen.server.base.entity.PasswordEntity;
 import cn.ligen.server.base.entity.UserEntity;
-import cn.ligen.server.base.mapper.PasswordEntityMapper;
-import cn.ligen.server.base.mapper.UserEntityMapper;
+import cn.ligen.server.base.mapper.PasswordMapper;
+import cn.ligen.server.base.mapper.UserMapper;
 import cn.ligen.server.base.service.UserService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +26,8 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserEntityMapper userMapper;
-    private final PasswordEntityMapper passwordMapper;
+    private final UserMapper userMapper;
+    private final PasswordMapper passwordMapper;
 
     @Value("${user.headerUrl}")
     private String headerBaseUrl;

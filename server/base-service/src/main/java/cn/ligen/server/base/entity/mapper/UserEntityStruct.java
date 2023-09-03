@@ -1,7 +1,7 @@
 package cn.ligen.server.base.entity.mapper;
 
-import cn.ligen.server.base.entity.UserEntity;
 import cn.ligen.server.base.entity.dto.UserDto;
+import cn.ligen.server.base.entity.UserEntity;
 import cn.ligen.server.base.entity.vo.UserVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

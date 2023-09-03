@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @description 操作密码实体类
  */
 @Mapper
-public interface PasswordEntityMapper extends BaseMapper<PasswordEntity> {
+public interface PasswordMapper extends BaseMapper<PasswordEntity> {
 }

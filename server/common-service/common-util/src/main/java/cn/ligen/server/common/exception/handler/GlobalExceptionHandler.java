@@ -2,6 +2,7 @@ package cn.ligen.server.common.exception.handler;
 
 import cn.ligen.server.common.exception.BadRequestException;
 import cn.ligen.server.common.util.CommonResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -20,5 +21,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = BadRequestException.class)
     public CommonResult<Object> badException(BadRequestException e) {
         return CommonResult.failed(e.getCode(), e.getMessage());
+    }
+
+    /**
+     * 数据验证错误
+     */
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public CommonResult<Object> validateException(MethodArgumentNotValidException e) {
+        return CommonResult.failed(e.getBindingResult().getFieldError().getDefaultMessage());
     }
 }

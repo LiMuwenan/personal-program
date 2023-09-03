@@ -1,4 +1,4 @@
-package cn.ligen.server.base;
+package cn.ligen.server;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -11,11 +11,11 @@ import java.net.InetAddress;
 
 @Slf4j
 @SpringBootApplication
-public class BaseServiceApplication {
+public class ServerApplication {
 
     @SneakyThrows
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(BaseServiceApplication.class);
+        SpringApplication app = new SpringApplication(ServerApplication.class);
         ConfigurableApplicationContext application = app.run(args);
         Environment env = application.getEnvironment();
         log.info("\n----------------------------------------------------------\n\t" +
