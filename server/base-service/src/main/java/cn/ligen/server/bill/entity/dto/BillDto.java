@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 public class BillDto {
 
     @NotBlank(message = "账单主题不能为空")
-    @Size(min = 1, max = 10, message = "主题长度在1-10字符之间")
+    @Length(min = 1, max = 10, message = "主题长度在1-10字符之间")
     @Schema(description = "账单主题，为什么花费")
     private String title;
 

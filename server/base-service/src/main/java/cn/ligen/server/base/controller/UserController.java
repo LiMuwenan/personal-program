@@ -9,6 +9,7 @@ import cn.ligen.server.base.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -26,7 +27,7 @@ public class UserController {
 
     @Operation(summary = "用户注册")
     @PostMapping("/register")
-    public CommonResult<UserVo> userRegister(@RequestBody UserDto userDto) {
+    public CommonResult<UserVo> userRegister(@Validated @RequestBody UserDto userDto) {
 
         UserEntity user = UserEntityStruct.INSTANCE.toEntity(userDto);
 
