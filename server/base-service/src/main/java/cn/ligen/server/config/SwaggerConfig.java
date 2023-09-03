@@ -1,4 +1,4 @@
-package cn.ligen.server.base.config;
+package cn.ligen.server.config;
 
 import cn.hutool.core.util.RandomUtil;
 import io.swagger.v3.oas.models.OpenAPI;
