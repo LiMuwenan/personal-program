@@ -1,7 +1,9 @@
 package cn.ligen.server.base.service;
 
 import cn.ligen.server.base.entity.UserEntity;
+import cn.ligen.server.base.entity.query.UserQuery;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.catalina.User;
 
 import java.util.List;
 import java.util.Set;
@@ -42,5 +44,22 @@ public interface UserService {
     Boolean updateUser(UserEntity userEntity);
 
     Boolean deleteUsers(Set<Integer> ids);
+
+    /**
+     * 检查用户登录数据
+     * @param userEntity 用户信息
+     * @param password 密码信息
+     * @return 判断结果
+     */
+    Boolean checkLogin(UserEntity userEntity, String password);
+
+    /**
+     * 查询用户，返回用户列表
+     * @param query 查询条件
+     * @param page 分页条件
+     * @return
+     */
+    List<UserEntity> queryUser(UserQuery query, Page<UserEntity> page);
+    UserEntity queryUser(UserQuery query);
 
 }

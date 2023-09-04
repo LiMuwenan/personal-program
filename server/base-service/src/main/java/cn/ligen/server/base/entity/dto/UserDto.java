@@ -22,8 +22,6 @@ public class UserDto {
     @NotNull(message = "用户名不能为空")
     private String username;
     @Schema(description = "昵称，作为名字展示", minLength = 1, maxLength = 10)
-    @Length(min = 1, max = 10, message = "昵称长度1-10字符")
-    @NotNull(message = "昵称不能为空")
     private String nickName;
     @Schema(description = "邮箱，用户可使用的登录邮箱")
     private String email;

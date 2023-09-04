@@ -1,19 +1,24 @@
 package cn.ligen.server.base.service.impl;
 
+import cn.ligen.server.base.entity.query.UserQuery;
+import cn.ligen.server.base.exception.BaseBadRequestException;
 import cn.ligen.server.common.util.UserUtil;
 import cn.ligen.server.base.entity.PasswordEntity;
 import cn.ligen.server.base.entity.UserEntity;
 import cn.ligen.server.base.mapper.PasswordMapper;
 import cn.ligen.server.base.mapper.UserMapper;
 import cn.ligen.server.base.service.UserService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -68,5 +73,45 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean deleteUsers(Set<Integer> ids) {
         return null;
+    }
+
+    @Override
+    public Boolean checkLogin(UserEntity userEntity, String password) {
+        UserEntity one = userMapper.selectOne(
+                new LambdaQueryWrapper<UserEntity>()
+                        .eq(UserEntity::getUsername, userEntity.getUsername())
+        );
+        if (one == null) {
+            throw new BaseBadRequestException("用户名不存在");
+        }
+        PasswordEntity passwordEntity = passwordMapper.selectOne(
+                new LambdaQueryWrapper<PasswordEntity>()
+                        .eq(PasswordEntity::getUserId, one.getId())
+        );
+        if (!password.equals(passwordEntity.getPassword())) {
+            throw new BaseBadRequestException("密码错误");
+        }
+        return true;
+    }
+
+    @Override
+    public List<UserEntity> queryUser(UserQuery query, Page<UserEntity> page) {
+        // 多查
+        Page<UserEntity> userEntityPage = userMapper.selectPage(page, null);
+        return userEntityPage.getRecords();
+    }
+
+    @Override
+    public UserEntity queryUser(UserQuery query) {
+        // 单查
+        UserEntity one = userMapper.selectOne(
+                new LambdaQueryWrapper<UserEntity>()
+                        .eq(query.getUsername() != null, UserEntity::getUsername, query.getUsername())
+                        .eq(query.getId() != null, UserEntity::getId, query.getId())
+        );
+        if (one == null) {
+            throw new BaseBadRequestException("查找的用户不存在");
+        }
+        return one;
     }
 }
