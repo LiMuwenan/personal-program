@@ -4,15 +4,13 @@ import cn.ligen.server.bill.entity.BillCategory;
 import cn.ligen.server.bill.entity.BillEntity;
 import cn.ligen.server.bill.entity.dto.BillDto;
 import cn.ligen.server.bill.entity.mapper.BillEntityStruct;
+import cn.ligen.server.bill.entity.vo.BillVo;
 import cn.ligen.server.bill.service.BillService;
 import cn.ligen.server.common.util.CommonResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -46,5 +44,15 @@ public class BillController {
         }
         Integer cnt = billService.importBillList(billList);
         return CommonResult.success(cnt);
+    }
+
+    @GetMapping("/list")
+    public CommonResult<List<BillVo>> billList(BillDto dto) {
+        List<BillEntity> billEntities = billService.queryBillList(dto);
+        List<BillVo> billVos = new ArrayList<>();
+        for (BillEntity billEntity : billEntities) {
+            billVos.add(BillEntityStruct.INSTANCE.toVo(billEntity));
+        }
+        return CommonResult.success(billVos);
     }
 }

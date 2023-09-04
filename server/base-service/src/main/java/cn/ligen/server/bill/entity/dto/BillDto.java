@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -31,7 +30,7 @@ public class BillDto {
     @Schema(description = "账单种类名称")
     private BillCategory message;
     @Schema(description = "账单花费时间")
-    private LocalDateTime spendTime;
+    private LocalDateTime costTime;
     @NotNull(message = "账单需要所属用户")
     @Schema(description = "所属用户")
     private Integer userId;

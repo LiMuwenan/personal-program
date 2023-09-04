@@ -3,9 +3,6 @@ package cn.ligen.server.bill.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -37,7 +34,7 @@ public class BillEntity {
     /**
      * 产生消费的时间
      */
-    private LocalDateTime spendTime;
+    private LocalDateTime costTime;
 
     private Integer userId;
     /**
