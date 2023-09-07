@@ -1,6 +1,7 @@
 package cn.ligen.server.bill.service;
 
 import cn.ligen.server.bill.entity.BillEntity;
+import cn.ligen.server.bill.entity.dto.BillDto;
 
 import java.util.List;
 
@@ -24,4 +25,11 @@ public interface BillService {
      * @return 插入条数
      */
     Integer importBillList(List<BillEntity> billList);
+
+    /**
+     * 获取账务列表
+     * @param dto
+     * @return
+     */
+    List<BillEntity> queryBillList(BillDto dto);
 }
