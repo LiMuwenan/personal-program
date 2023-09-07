@@ -10,6 +10,8 @@ import cn.ligen.server.base.entity.vo.UserVo;
 import cn.ligen.server.base.service.UserService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -58,6 +60,10 @@ public class UserController {
 
     @Operation(summary = "查询用户列表", description = "分页")
     @GetMapping("/userList")
+    @Parameters(value = {
+            @Parameter(name = "size", description = "分页大小", required = true),
+            @Parameter(name = "current", description = "当前页码", required = true)
+    })
     public CommonResult<List<UserVo>> userList(UserQuery query, Page<UserEntity> page) {
         List<UserEntity> userEntities = userService.queryUser(query, page);
         List<UserVo> userVos = new ArrayList<>();
