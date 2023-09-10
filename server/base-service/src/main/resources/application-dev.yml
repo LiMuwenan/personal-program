@@ -18,6 +18,7 @@ logging:
   level:
     cn.ligen.server.base.service: DEBUG
     cn.ligen.server.base.mapper: DEBUG
+    cn.ligen.server.*: DEBUG
 
 
 # springdoc-openapi项目配置

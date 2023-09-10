@@ -1,6 +1,7 @@
 package cn.ligen.server.bill.entity.vo;
 
-import cn.ligen.server.bill.entity.BillCategory;
+import cn.ligen.server.bill.entity.BillCategoryEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -15,8 +16,9 @@ import java.time.LocalDateTime;
 @Data
 public class BillVo {
     @Schema(description = "账单种类名称")
-    private BillCategory message;
+    private String message;
     @Schema(description = "账单花费时间")
+    @JsonFormat(pattern = "YYYY-MM-DD", timezone = "GMT+8")
     private LocalDateTime costTime;
     @Schema(description = "账单主题，为什么花费")
     private String title;

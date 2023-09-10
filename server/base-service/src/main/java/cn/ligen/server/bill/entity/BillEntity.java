@@ -29,7 +29,7 @@ public class BillEntity {
      * 账单种类编号
      */
     private Integer code;
-    private BillCategory message;
+    private String message;
     private LocalDateTime createTime;
     /**
      * 产生消费的时间
