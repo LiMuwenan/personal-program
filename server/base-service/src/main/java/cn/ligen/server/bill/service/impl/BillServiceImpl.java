@@ -54,7 +54,8 @@ public class BillServiceImpl implements BillService {
                         .le(query.getEndTime() != null, BillEntity::getCostTime, query.getEndTime())
                         .ge(query.getStartTime() != null, BillEntity::getCostTime, query.getStartTime())
                         .like(StrUtil.isNotEmpty(query.getTitle()), BillEntity::getTitle, query.getTitle())
-                        .orderByDesc(BillEntity::getCostTime, BillEntity::getId)
+                        .orderByDesc(BillEntity::getCostTime)
+                        .orderByDesc(BillEntity::getId)
         );
         return billEntities.getRecords();
     }
