@@ -3,9 +3,12 @@ package cn.ligen.server.bill.controller;
 import cn.ligen.server.bill.entity.BillEntity;
 import cn.ligen.server.bill.entity.dto.BillDto;
 import cn.ligen.server.bill.entity.mapper.BillEntityStruct;
+import cn.ligen.server.bill.entity.query.BillQuery;
 import cn.ligen.server.bill.entity.vo.BillVo;
 import cn.ligen.server.bill.service.BillService;
+import cn.ligen.server.common.util.CommonPage;
 import cn.ligen.server.common.util.CommonResult;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -66,14 +69,23 @@ public class BillController {
     @Operation(summary = "获取账单列表")
     @GetMapping("/list")
     @Parameters({
-            @Parameter(name = "userId", description = "用户ID", required = true)
+            @Parameter(name = "codes", description = "账单种类编号", required = true),
+            @Parameter(name = "startTime", description = "账单花费时间", required = true),
+            @Parameter(name = "endTime", description = "账单花费时间", required = true),
+            @Parameter(name = "lowCost" ,description = "账单花费金额", required = true),
+            @Parameter(name = "highCost" ,description = "账单花费金额", required = true)
     })
-    public CommonResult<List<BillVo>> billList(BillDto dto) {
-        List<BillEntity> billEntities = billService.queryBillList(dto);
+    public CommonResult<CommonPage<BillVo>> billList(BillQuery query, Page page) {
+        List<BillEntity> billEntities = billService.queryBillList(query, page);
         List<BillVo> billVos = new ArrayList<>();
         for (BillEntity billEntity : billEntities) {
             billVos.add(BillEntityStruct.INSTANCE.toVo(billEntity));
         }
-        return CommonResult.success(billVos);
+        CommonPage<BillVo> commonPage = new CommonPage<>();
+        commonPage.setSize(page.getSize());
+        commonPage.setTotal(page.getTotal());
+        commonPage.setRecords(billVos);
+        commonPage.setCurrent(page.getCurrent());
+        return CommonResult.success(commonPage);
     }
 }

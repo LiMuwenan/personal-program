@@ -1,17 +1,17 @@
 package cn.ligen.server.bill.service.impl;
 
-import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.ligen.server.bill.entity.BillCategoryEnum;
 import cn.ligen.server.bill.entity.BillEntity;
-import cn.ligen.server.bill.entity.dto.BillDto;
+import cn.ligen.server.bill.entity.query.BillQuery;
 import cn.ligen.server.bill.mapper.BillMapper;
 import cn.ligen.server.bill.service.BillService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,11 +46,17 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public List<BillEntity> queryBillList(BillDto dto) {
-        List<BillEntity> billEntities = billMapper.selectList(
+    public List<BillEntity> queryBillList(BillQuery query, Page<BillEntity> page) {
+        Page<BillEntity> billEntities = billMapper.selectPage(page,
                 new LambdaQueryWrapper<BillEntity>()
+                        .in(query.getCodes() != null, BillEntity::getCode, query.getCodes())
+                        .le(query.getHighCost() != null, BillEntity::getCost, query.getHighCost())
+                        .ge(query.getLowCost() != null, BillEntity::getCost, query.getLowCost())
+                        .le(query.getEndTime() != null, BillEntity::getCostTime, query.getEndTime())
+                        .ge(query.getStartTime() != null, BillEntity::getCostTime, query.getStartTime())
+                        .like(StrUtil.isNotEmpty(query.getTitle()), BillEntity::getTitle, query.getTitle())
                         .orderByDesc(BillEntity::getCostTime, BillEntity::getId)
         );
-        return billEntities;
+        return billEntities.getRecords();
     }
 }
