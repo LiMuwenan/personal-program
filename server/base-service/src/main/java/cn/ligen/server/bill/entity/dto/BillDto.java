@@ -1,11 +1,13 @@
 package cn.ligen.server.bill.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author ligen
@@ -26,6 +28,7 @@ public class BillDto {
     @Schema(description = "账单种类名称")
     private String message;
     @Schema(description = "账单花费时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Past(message = "设置日期只能为过去", groups = {Add.class})
     private LocalDateTime costTime;
 
@@ -34,6 +37,9 @@ public class BillDto {
     @Digits(integer = 12, fraction = 2, message = "账单花费不能为空", groups = {Add.class})
     @Schema(description = "账单花费金额")
     private BigDecimal cost;
+
+    @Schema(description = "删除")
+    private List<Integer> ids;
 
     public @interface Add {}
     public @interface Query {}

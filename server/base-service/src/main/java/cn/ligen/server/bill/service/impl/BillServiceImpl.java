@@ -30,7 +30,6 @@ public class BillServiceImpl implements BillService {
         bill.setCreateTime(LocalDateTime.now());
         bill.setMessage(BillCategoryEnum.getMessage(bill.getCode()));
         bill.setUserId(8);
-        bill.setCostTime(bill.getCostTime().plusHours(20L));
         int cnt = billMapper.insert(bill);
         return cnt;
     }
