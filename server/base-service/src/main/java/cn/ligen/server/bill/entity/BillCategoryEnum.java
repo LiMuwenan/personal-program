@@ -1,18 +1,18 @@
 package cn.ligen.server.bill.entity;
 
-import lombok.Data;
+import java.util.Objects;
 
 /**
  * @author ligen
  * @date 2023/9/2 23:00
  * @description 账单类型美剧
  */
-public enum BillCategory {
+public enum BillCategoryEnum {
 
-    FOOD(1, "食物", "FOOD"), // 一日三餐小零食
+    DAILY(1, "日常", "DAILY"), // 一日三餐小零食，自己做饭
     FRUIT(2, "水果", "FRUIT"),
-    SUPER_MARKET(3, "商超", "SUPER_MARKET"), // 超市
-    DINNER(4, "聚餐", "DINNER"),
+    SUPER_MARKET(3, "商超", "SUPER_MARKET"), // 大超市
+    DINNER(4, "聚餐", "DINNER"), // 大饭
     WATER_BILL(20, "水费", "WATER_BILL"),
     ELECTRICITY_BILL(21, "电费", "ELECTRICITY_BILL"),
     GAS_BILL(22, "燃气费", "GAS_BILL"),
@@ -24,14 +24,17 @@ public enum BillCategory {
     TRAVEL(40, "旅游", "TRAVEL"),
     BEAUTY(41, "美妆","BEAUTY"),
     ELECTRONIC(42, "电子产品", "ELECTRONIC"), // 电子产品
+
+    CLOTHES(43, "衣服鞋子", "CLOTHES"), // 电子产品
     INVESTMENT(90, "投资", "INVESTMENT"),
     SALARY(100, "薪水", "SALARY"),
+    INPUT(101, "收款", "SALARY"), // 非二人收入
     OTHER(200, "其他", "OTHER");
     private Integer code;
     private String message;
     private String name;
 
-    private BillCategory(Integer code, String message, String name) {
+    private BillCategoryEnum(Integer code, String message, String name) {
         this.code = code;
         this.message = message;
         this.name = name;
@@ -45,5 +48,14 @@ public enum BillCategory {
     }
     public String getName() {
         return name;
+    }
+
+    public static String getMessage(Integer code) {
+        for (BillCategoryEnum value : BillCategoryEnum.values()) {
+            if (Objects.equals(value.getCode(), code)) {
+                return value.getMessage();
+            }
+        }
+        return null;
     }
 }

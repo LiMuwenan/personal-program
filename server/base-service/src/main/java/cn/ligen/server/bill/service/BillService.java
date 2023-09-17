@@ -1,7 +1,8 @@
 package cn.ligen.server.bill.service;
 
 import cn.ligen.server.bill.entity.BillEntity;
-import cn.ligen.server.bill.entity.dto.BillDto;
+import cn.ligen.server.bill.entity.query.BillQuery;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
 
@@ -28,8 +29,8 @@ public interface BillService {
 
     /**
      * 获取账务列表
-     * @param dto
+     * @param query
      * @return
      */
-    List<BillEntity> queryBillList(BillDto dto);
+    List<BillEntity> queryBillList(BillQuery query, Page<BillEntity> page);
 }
