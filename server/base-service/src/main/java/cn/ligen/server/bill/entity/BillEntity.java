@@ -41,4 +41,10 @@ public class BillEntity {
      * 花费(10,2)
      */
     private BigDecimal cost;
+
+    /**
+     * 支出还是收入
+     * false 收入 true 支出
+     */
+    private Boolean flag;
 }

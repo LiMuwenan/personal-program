@@ -1,7 +1,9 @@
 package cn.ligen.server.bill.entity.query;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,9 +22,11 @@ public class BillQuery {
     private String title;
 
     @Schema(description = "查询开始时间 YYYY-MM-DD HH:mm:ss")
-    private String startTime = "1970-01-01 00:00:00";
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime startTime;
     @Schema(description = "查询结束时间 YYYY-MM-DD HH:mm:ss")
-    private String endTime = "2050-12-31 00:00:00";
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime endTime;
 
     @Schema(description = "查询种类范围")
     private List<Integer> codes;
