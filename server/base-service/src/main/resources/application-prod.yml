@@ -6,7 +6,7 @@ spring:
     name: base-service
   # 数据源
   datasource:
-    username: lostpass
+    username: prod
     password: 123456
     url: jdbc:mysql://localhost:3306/server?serverTimezone=Asia/Shanghai&Unicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver

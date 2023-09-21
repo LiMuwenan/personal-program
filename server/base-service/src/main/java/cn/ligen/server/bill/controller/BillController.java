@@ -4,11 +4,14 @@ import cn.ligen.server.bill.entity.BillEntity;
 import cn.ligen.server.bill.entity.dto.BillDto;
 import cn.ligen.server.bill.entity.mapper.BillEntityStruct;
 import cn.ligen.server.bill.entity.query.BillQuery;
+import cn.ligen.server.bill.entity.query.OverViewQuery;
 import cn.ligen.server.bill.entity.vo.BillVo;
+import cn.ligen.server.bill.entity.vo.OverViewVo;
 import cn.ligen.server.bill.service.BillService;
 import cn.ligen.server.common.util.CommonPage;
 import cn.ligen.server.common.util.CommonResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -18,8 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author ligen
@@ -87,5 +92,25 @@ public class BillController {
         commonPage.setRecords(billVos);
         commonPage.setCurrent(page.getCurrent());
         return CommonResult.success(commonPage);
+    }
+
+    @Operation(summary = "统计账单")
+    @GetMapping("/stat")
+    @Parameters({
+            @Parameter(name = "codes", description = "账单种类编号", required = true),
+            @Parameter(name = "startTime", description = "账单花费时间", required = true),
+            @Parameter(name = "endTime", description = "账单花费时间", required = true),
+            @Parameter(name = "lowCost" ,description = "账单花费金额", required = true),
+            @Parameter(name = "highCost" ,description = "账单花费金额", required = true)
+    })
+    public CommonResult<Object> billStatistic(BillQuery query) {
+        // 前端请求默认今年来
+        // 也可具体选时间，由前端自己生成时间
+        return CommonResult.success(billService.billStat(query));
+    }
+
+    @GetMapping("/test")
+    public CommonResult<Object> test(@JsonFormat(pattern = "YYYY-MM-DD") LocalDateTime time) {
+        return CommonResult.success(time);
     }
 }

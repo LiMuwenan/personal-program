@@ -2,6 +2,7 @@ package cn.ligen.server.bill.service;
 
 import cn.ligen.server.bill.entity.BillEntity;
 import cn.ligen.server.bill.entity.query.BillQuery;
+import cn.ligen.server.bill.entity.vo.OverViewVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
@@ -33,4 +34,6 @@ public interface BillService {
      * @return
      */
     List<BillEntity> queryBillList(BillQuery query, Page<BillEntity> page);
+
+    OverViewVo billStat(BillQuery query);
 }
