@@ -63,12 +63,12 @@
             <artifactId>common-util</artifactId>
             <version>v0.0.1</version>
         </dependency>
-<!--        ==============================================工具包=============================================================-->
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>5.8.21</version>
+            <groupId>cn.ligen.server</groupId>
+            <artifactId>common-redis</artifactId>
+            <version>v0.0.1</version>
         </dependency>
+<!--        ==============================================工具包=============================================================-->
         <!--        lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
