@@ -29,4 +29,6 @@ public class UserDto {
     private String phone;
     @Schema(description = "用户密码", type = "password")
     private String password;
+    @Schema(description = "认证token")
+    private String token;
 }

@@ -1,16 +1,22 @@
 package cn.ligen.server.base.service.impl;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.jwt.JWT;
 import cn.ligen.server.base.entity.query.UserQuery;
 import cn.ligen.server.base.exception.BaseBadRequestException;
+import cn.ligen.server.common.util.JWTTokenUtil;
 import cn.ligen.server.common.util.UserUtil;
 import cn.ligen.server.base.entity.PasswordEntity;
 import cn.ligen.server.base.entity.UserEntity;
 import cn.ligen.server.base.mapper.PasswordMapper;
 import cn.ligen.server.base.mapper.UserMapper;
 import cn.ligen.server.base.service.UserService;
+import cn.ligen.server.constant.UserKeyConstant;
+import cn.ligen.server.redis.RedisUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,21 +24,23 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ligen
  * @date 2023/8/26 14:42
  * @description
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
     private final PasswordMapper passwordMapper;
+    private final RedisUtil redisUtil;
+    private final JWTTokenUtil tokenUtil;
 
     @Value("${user.headerUrl}")
     private String headerBaseUrl;
@@ -50,6 +58,14 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public UserEntity create(UserEntity userEntity, String password) {
+        UserEntity one = userMapper.selectOne(
+                new LambdaQueryWrapper<UserEntity>()
+                        .eq(UserEntity::getUsername, userEntity.getUsername())
+                        .last("limit 1")
+        );
+        if (one != null) {
+            throw new  BaseBadRequestException("用户名已存在");
+        }
         LocalDateTime now = LocalDateTime.now();
         userEntity.setCreateTime(now);
         userEntity.setUpdateTime(now);
@@ -62,6 +78,7 @@ public class UserServiceImpl implements UserService {
                 .setUserId(userEntity.getId())
                 .setPassword(password);
         passwordMapper.insert(newPass);
+        log.info("成功创建用户 : {}", userEntity.getId());
         return userEntity;
     }
 
@@ -76,7 +93,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean checkLogin(UserEntity userEntity, String password) {
+    public String checkLogin(UserEntity userEntity, String password) {
         UserEntity one = userMapper.selectOne(
                 new LambdaQueryWrapper<UserEntity>()
                         .eq(UserEntity::getUsername, userEntity.getUsername())
@@ -91,7 +108,18 @@ public class UserServiceImpl implements UserService {
         if (!password.equals(passwordEntity.getPassword())) {
             throw new BaseBadRequestException("密码错误");
         }
-        return true;
+
+        // jwt token
+        Map<String, Object> payloads = new HashMap<>();
+        payloads.put("username", one.getUsername());
+        payloads.put("id", one.getId());
+        payloads.put("email", one.getEmail());
+        payloads.put("phone", one.getPhone());
+        String token = tokenUtil.generatorToken(payloads, UserKeyConstant.ONLINE_TIME);
+
+        redisUtil.set(UserKeyConstant.ONLINE_USER + token, payloads, UserKeyConstant.ONLINE_TIME, TimeUnit.HOURS);
+        log.info("成功创建用户，并生成token");
+        return token;
     }
 
     @Override

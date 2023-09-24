@@ -15,14 +15,14 @@ public class BadRequestException extends RuntimeException{
     public BadRequestException() {super();}
     public BadRequestException(String message) {
         super(message);
-        this.code = HttpCodeEnum.HTTP_RESPONSE_FAILED.getCode();
+        this.code = HttpCodeEnum.HTTP_REQUEST_FAILED.getCode();
         this.message = message;
     }
 
     public BadRequestException(HttpCodeEnum httpCodeEnum) {
         super(httpCodeEnum.getMessage());
         this.code = httpCodeEnum.getCode();
-        this.message = HttpCodeEnum.HTTP_REQUEST_FAILED.getMessage();
+        this.message = httpCodeEnum.getMessage();
     }
 
     public BadRequestException(String message, Throwable cause) {
