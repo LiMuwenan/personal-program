@@ -46,12 +46,12 @@ public interface UserService {
     Boolean deleteUsers(Set<Integer> ids);
 
     /**
-     * 检查用户登录数据
+     * 检查用户登录数据，登录成功返回token
      * @param userEntity 用户信息
      * @param password 密码信息
-     * @return 判断结果
+     * @return 返回token
      */
-    Boolean checkLogin(UserEntity userEntity, String password);
+    String checkLogin(UserEntity userEntity, String password);
 
     /**
      * 查询用户，返回用户列表

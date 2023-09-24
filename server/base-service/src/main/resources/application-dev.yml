@@ -56,3 +56,5 @@ knife4j:
 # 自定义数据配置
 user:
   headerUrl: https://gitee.com/ligen0121/PicBed/blob/master/header/header
+token:
+  key: ligen-wendan

@@ -1,7 +1,10 @@
 package cn.ligen.server.base;
 
-import cn.hutool.jwt.JWT;
-import cn.hutool.jwt.JWTUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+import cn.hutool.jwt.*;
+import cn.hutool.jwt.signers.JWTSigner;
+import cn.hutool.jwt.signers.NoneJWTSigner;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -20,19 +23,26 @@ public class JWTTest {
     public void generateToken() {
         JWT jwt = new JWT();
         // 头
-        Map<String, Object> headers = new HashMap<>();
-        headers.put("alg", "HS512");
-        headers.put("typ", "JWT");
-        jwt.addHeaders(headers);
-
+        jwt.setHeader("alg", "HS512");
+        jwt.setHeader("typ", "JWT");
         // 负载
-        Map<String, Object> payloads = new HashMap<>();
-        payloads.put("username", "ligen");
-        payloads.put("id", 8);
-        jwt.addPayloads(payloads);
+        jwt.setPayload("username", "ligen");
+        jwt.setPayload("id", 8);
+        jwt.setPayload("exp", 10);
 
-        String token = JWTUtil.createToken(headers, payloads, "key".getBytes());
 
-        System.out.println(token);
+    }
+
+    @Test
+    public void parseToken() {
+        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZCI6OCwidXNlcm5hbWUiOiJsaWdlbiJ9.Lqyt1-lhFVzVpgFjbpo45gG8tQ3IIA1FaS5xRSX2pAcAvs4Yi72XrtO2cAHkg6DWLVpJwtnZJaTU7uB9d5bh8Q";
+        JWT jwt = JWT.of(token);
+
+        JSONObject headers = jwt.getHeaders();
+        System.out.println(headers.toString());
+        JSONObject payloads = jwt.getPayloads();
+        System.out.println(payloads.toString());
+
+        System.out.println(JWTUtil.verify(token, "key".getBytes()));
     }
 }

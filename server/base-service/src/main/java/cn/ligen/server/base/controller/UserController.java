@@ -2,12 +2,16 @@ package cn.ligen.server.base.controller;
 
 import cn.ligen.server.base.entity.mapper.UserEntityStruct;
 import cn.ligen.server.base.entity.query.UserQuery;
+import cn.ligen.server.base.entity.vo.TokenVo;
 import cn.ligen.server.base.exception.BaseBadRequestException;
 import cn.ligen.server.common.util.CommonResult;
 import cn.ligen.server.base.entity.UserEntity;
 import cn.ligen.server.base.entity.dto.UserDto;
 import cn.ligen.server.base.entity.vo.UserVo;
 import cn.ligen.server.base.service.UserService;
+import cn.ligen.server.common.util.JWTTokenUtil;
+import cn.ligen.server.constant.UserKeyConstant;
+import cn.ligen.server.redis.RedisUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ligen
@@ -48,14 +53,15 @@ public class UserController {
 
     @Operation(summary = "用户登录")
     @PostMapping("/login")
-    public CommonResult<UserVo> userLogin(@Validated @RequestBody UserDto userDto) {
+    public CommonResult<TokenVo> userLogin(@Validated @RequestBody UserDto userDto) {
         UserEntity user = UserEntityStruct.INSTANCE.toEntity(userDto);
 
-        Boolean result = userService.checkLogin(user, userDto.getPassword());
+        String token = userService.checkLogin(user, userDto.getPassword());
 
-        UserVo userVo = UserEntityStruct.INSTANCE.toVo(user);
+        TokenVo tokenVo = new TokenVo();
+        tokenVo.setAccessToken(token);
 
-        return CommonResult.success("登录成功", userVo);
+        return CommonResult.success("登录成功", tokenVo);
     }
 
     @Operation(summary = "查询用户列表", description = "分页")
