@@ -11,8 +11,8 @@
     <groupId>cn.ligen.server</groupId>
     <artifactId>base-service</artifactId>
     <version>v0.0.1</version>
-    <name>lostpass-service</name>
-    <description>lostpass-service</description>
+    <name>base-service</name>
+    <description>base-service</description>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
