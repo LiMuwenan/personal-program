@@ -1,7 +1,5 @@
 package cn.ligen.server.base.service.impl;
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.jwt.JWT;
 import cn.ligen.server.base.entity.query.UserQuery;
 import cn.ligen.server.base.exception.BaseBadRequestException;
 import cn.ligen.server.common.util.JWTTokenUtil;
@@ -17,7 +15,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

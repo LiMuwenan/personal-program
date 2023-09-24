@@ -5,25 +5,20 @@ import cn.hutool.core.util.StrUtil;
 import cn.ligen.server.bill.entity.BillCategoryEnum;
 import cn.ligen.server.bill.entity.BillEntity;
 import cn.ligen.server.bill.entity.query.BillQuery;
-import cn.ligen.server.bill.entity.query.OverViewQuery;
 import cn.ligen.server.bill.entity.vo.OverViewVo;
 import cn.ligen.server.bill.mapper.BillMapper;
 import cn.ligen.server.bill.service.BillService;
+import cn.ligen.server.common.util.UserContextHolder;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.SimpleFormatter;
-import java.util.stream.Collectors;
 
 /**
  * @author ligen
@@ -41,7 +36,8 @@ public class BillServiceImpl implements BillService {
         bill.setCreateTime(LocalDateTime.now());
         bill.setMessage(BillCategoryEnum.getMessage(bill.getCode()));
         bill.setFlag(BillCategoryEnum.getIsCost(bill.getCode()));
-        bill.setUserId(8);
+        Map<String, Object> user = (Map<String, Object>) UserContextHolder.getUser();
+        bill.setUserId((Integer) user.get("id"));
         int cnt = billMapper.insert(bill);
         return cnt;
     }
@@ -58,8 +54,10 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public List<BillEntity> queryBillList(BillQuery query, Page<BillEntity> page) {
+        Integer id = (Integer) ((Map<String, Object>) UserContextHolder.getUser()).get("id");
         Page<BillEntity> billEntities = billMapper.selectPage(page,
                 new LambdaQueryWrapper<BillEntity>()
+                        .eq(id != null, BillEntity::getUserId, id)
                         .in(query.getCodes() != null, BillEntity::getCode, query.getCodes())
                         .le(query.getHighCost() != null, BillEntity::getCost, query.getHighCost())
                         .ge(query.getLowCost() != null, BillEntity::getCost, query.getLowCost())

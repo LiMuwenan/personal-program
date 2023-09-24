@@ -9,9 +9,6 @@ import cn.ligen.server.base.entity.UserEntity;
 import cn.ligen.server.base.entity.dto.UserDto;
 import cn.ligen.server.base.entity.vo.UserVo;
 import cn.ligen.server.base.service.UserService;
-import cn.ligen.server.common.util.JWTTokenUtil;
-import cn.ligen.server.constant.UserKeyConstant;
-import cn.ligen.server.redis.RedisUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author ligen
