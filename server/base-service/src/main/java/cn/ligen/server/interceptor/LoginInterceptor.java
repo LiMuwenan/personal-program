@@ -40,6 +40,10 @@ public class LoginInterceptor implements HandlerInterceptor {
             throw new BadRequestException("未携带token，禁止访问");
         }
         token = token.replace("Bearer ", "").replace("bearer ", "");
+        if (!tokenUtil.validate(token)) {
+            log.error("token解析失败");
+            return false;
+        }
         Map<String, Object> payloads = (Map<String, Object>) redisUtil.get(UserKeyConstant.ONLINE_USER + token);
         UserEntity userEntity = new UserEntity();
         userEntity.setId((Integer) payloads.get("id"));
