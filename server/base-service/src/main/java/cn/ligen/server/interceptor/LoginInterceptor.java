@@ -35,11 +35,12 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("authorization");
-        if (StrUtil.isBlank(token) || !tokenUtil.validate(token.substring(7))) {
-            log.error("请求token验证失败");
-            throw new BadRequestException("token验证失败");
+        if (StrUtil.isBlank(token)) {
+            log.error("未携带token，禁止访问");
+            throw new BadRequestException("未携带token，禁止访问");
         }
-        Map<String, Object> payloads = (Map<String, Object>) redisUtil.get(UserKeyConstant.ONLINE_USER + token.substring(7));
+        token = token.replace("Bearer ", "").replace("bearer ", "");
+        Map<String, Object> payloads = (Map<String, Object>) redisUtil.get(UserKeyConstant.ONLINE_USER + token);
         UserEntity userEntity = new UserEntity();
         userEntity.setId((Integer) payloads.get("id"));
         userEntity.setUsername((String) payloads.get("username"));
