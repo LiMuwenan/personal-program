@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
         String token = tokenUtil.generatorToken(payloads, UserKeyConstant.ONLINE_TIME);
 
         redisUtil.set(UserKeyConstant.ONLINE_USER + token, payloads, UserKeyConstant.ONLINE_TIME, TimeUnit.HOURS);
-        log.info("成功创建用户，并生成token");
+        log.info("成功登录，并生成token");
         return token;
     }
 
