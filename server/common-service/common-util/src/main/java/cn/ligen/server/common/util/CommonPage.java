@@ -17,11 +17,11 @@ public class CommonPage<T> {
      */
     private Long current;
     /**
-     * 分页大小
+     * 分页大小（本次查询到数据量）
      */
     private Long size;
     /**
-     * 返回的数据量
+     * 符合条件的总数据量，不管分页
      */
     private Long total;
     /**
