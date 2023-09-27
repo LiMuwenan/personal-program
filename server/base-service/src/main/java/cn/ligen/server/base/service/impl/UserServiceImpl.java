@@ -1,7 +1,5 @@
 package cn.ligen.server.base.service.impl;
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.jwt.JWT;
 import cn.ligen.server.base.entity.query.UserQuery;
 import cn.ligen.server.base.exception.BaseBadRequestException;
 import cn.ligen.server.common.util.JWTTokenUtil;
@@ -17,7 +15,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -118,7 +115,7 @@ public class UserServiceImpl implements UserService {
         String token = tokenUtil.generatorToken(payloads, UserKeyConstant.ONLINE_TIME);
 
         redisUtil.set(UserKeyConstant.ONLINE_USER + token, payloads, UserKeyConstant.ONLINE_TIME, TimeUnit.HOURS);
-        log.info("成功创建用户，并生成token");
+        log.info("成功登录，并生成token");
         return token;
     }
 

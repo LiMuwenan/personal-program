@@ -4,9 +4,7 @@ import cn.ligen.server.bill.entity.BillEntity;
 import cn.ligen.server.bill.entity.dto.BillDto;
 import cn.ligen.server.bill.entity.mapper.BillEntityStruct;
 import cn.ligen.server.bill.entity.query.BillQuery;
-import cn.ligen.server.bill.entity.query.OverViewQuery;
 import cn.ligen.server.bill.entity.vo.BillVo;
-import cn.ligen.server.bill.entity.vo.OverViewVo;
 import cn.ligen.server.bill.service.BillService;
 import cn.ligen.server.common.util.CommonPage;
 import cn.ligen.server.common.util.CommonResult;
@@ -21,10 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author ligen
