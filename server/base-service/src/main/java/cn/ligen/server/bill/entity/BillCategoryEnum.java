@@ -23,10 +23,12 @@ public enum BillCategoryEnum {
     TRANSPORTATION(26, "交通费", "TRANSPORTATION", true),
     PHONE_BILL(27, "电话费", "PHONE_BILL", true),
     TRAVEL(40, "旅游", "TRAVEL", true),
-    BEAUTY(41, "美妆","BEAUTY", true),
+    BEAUTY(41, "美妆日用","BEAUTY", true),
     ELECTRONIC(42, "电子产品", "ELECTRONIC", true), // 电子产品
 
-    CLOTHES(43, "衣服鞋子", "CLOTHES", true), // 电子产品
+    CLOTHES(43, "衣服鞋子", "CLOTHES", true), // 服贸
+
+    OFFICE(60, "办公学习", "OFFICE", true), // 办公学习
     INVESTMENT(90, "投资", "INVESTMENT", true),
     SALARY(100, "薪水", "SALARY", false),
     INPUT(101, "收款", "SALARY", false), // 非二人收入
