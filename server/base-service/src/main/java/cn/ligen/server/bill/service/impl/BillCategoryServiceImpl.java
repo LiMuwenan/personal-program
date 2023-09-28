@@ -3,6 +3,8 @@ package cn.ligen.server.bill.service.impl;
 import cn.ligen.server.bill.entity.BillCategory;
 import cn.ligen.server.bill.mapper.BillCategoryMapper;
 import cn.ligen.server.bill.service.BillCategoryService;
+import cn.ligen.server.constant.ExpireTimeConstant;
+import cn.ligen.server.redis.RedisUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +21,17 @@ public class BillCategoryServiceImpl implements BillCategoryService {
     @Resource
     private BillCategoryMapper billCategoryMapper;
 
+    @Resource
+    private RedisUtil redisUtil;
+
     @Override
     public List<BillCategory> queryBillCategories() {
-        return billCategoryMapper.selectList(null);
+        List<BillCategory> billCategories = billCategoryMapper.selectList(null);
+        // 查到的种类信息放到缓存里，方便取用
+        for (BillCategory billCategory : billCategories) {
+            redisUtil.set(String.valueOf(billCategory.getCode()), billCategory, ExpireTimeConstant.MINUTE_ONE_HOUR);
+        }
+        return billCategories;
     }
 
     @Override

@@ -45,6 +45,7 @@ public class BillEntity {
     /**
      * 支出还是收入
      * false 收入 true 支出
+     * 0 收入     1    支出
      */
-    private Boolean flag;
+    private Integer flag;
 }
