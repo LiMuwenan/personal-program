@@ -86,7 +86,7 @@ public class BillServiceImpl implements BillService {
         // 总支出
         BigDecimal spend = new BigDecimal(0);
         // 按类别金额
-        Map<Integer, BigDecimal> groupByCode = new HashMap<>();
+        Map<String, BigDecimal> groupByCode = new HashMap<>();
         // 按日期分类
         String format = "yyyy-MM-dd";
         if (query.getStartTime().getYear() != query.getEndTime().getYear()
@@ -112,9 +112,9 @@ public class BillServiceImpl implements BillService {
                 income = income.add(bill.getCost());
             }
             // 分类总金额
-            BigDecimal sum = groupByCode.getOrDefault(bill.getCode(), BigDecimal.ZERO);
+            BigDecimal sum = groupByCode.getOrDefault(bill.getMessage(), BigDecimal.ZERO);
             sum = sum.add(bill.getCost());
-            groupByCode.put(bill.getCode(), sum);
+            groupByCode.put(bill.getMessage(), sum);
         }
 
         vo.setIncome(income);

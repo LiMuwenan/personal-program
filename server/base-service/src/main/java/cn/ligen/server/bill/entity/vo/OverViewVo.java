@@ -22,7 +22,7 @@ public class OverViewVo {
     @Schema(description = "盈余")
     private BigDecimal balance;
     @Schema(description = "按类别金额")
-    private Map<Integer, BigDecimal> groupByCode;
+    private Map<String, BigDecimal> groupByCode;
     @Schema(description = "按日期分组")
     Map<String, Map<Boolean, BigDecimal>> groupByDate;
 
