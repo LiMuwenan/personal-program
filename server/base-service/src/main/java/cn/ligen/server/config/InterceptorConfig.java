@@ -20,6 +20,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
+                .excludePathPatterns("/doc.html", "/webjars/**", "/v3/api-docs/**", "/swagger-ui.html") // knife4j, swagger
                 .excludePathPatterns("/**/**.jpg", "/**/**.ico", "/**/**.png")
                 .excludePathPatterns("/api/user/login", "/api/user/register");
 
