@@ -5,6 +5,7 @@ import cn.ligen.server.bill.mapper.BillCategoryMapper;
 import cn.ligen.server.bill.service.BillCategoryService;
 import cn.ligen.server.constant.ExpireTimeConstant;
 import cn.ligen.server.redis.RedisUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,10 @@ public class BillCategoryServiceImpl implements BillCategoryService {
 
     @Override
     public List<BillCategory> queryBillCategories() {
-        List<BillCategory> billCategories = billCategoryMapper.selectList(null);
+        List<BillCategory> billCategories = billCategoryMapper.selectList(
+                new LambdaQueryWrapper<BillCategory>()
+                        .orderByAsc(BillCategory::getCode)
+        );
         // 查到的种类信息放到缓存里，方便取用
         for (BillCategory billCategory : billCategories) {
             redisUtil.set(String.valueOf(billCategory.getCode()), billCategory, ExpireTimeConstant.MINUTE_ONE_HOUR);
