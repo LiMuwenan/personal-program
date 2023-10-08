@@ -43,4 +43,26 @@ public class BillCategoryController {
     public CommonResult<Object> queryCategoryList() {
         return CommonResult.success(billCategoryService.queryBillCategories());
     }
+
+    @Operation(summary = "修改更新账单种类")
+    @PostMapping("/update")
+    @Parameters(value = {
+            @Parameter(name = "code", required = true),
+            @Parameter(name = "message", required = true),
+            @Parameter(name = "status", required = true)
+    })
+    public CommonResult<Object> updateCategory(@RequestBody BillCategory category) {
+        billCategoryService.updateBillCategory(category);
+        return CommonResult.success();
+    }
+
+    @Operation(summary = "删除账单种类")
+    @PostMapping("/delete")
+    @Parameters(value = {
+            @Parameter(name = "id", required = true)
+    })
+    public CommonResult<Object> deleteCategory(@RequestBody BillCategory category) {
+        billCategoryService.removeBillCategory(category);
+        return CommonResult.success();
+    }
 }
