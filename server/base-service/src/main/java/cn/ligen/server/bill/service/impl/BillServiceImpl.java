@@ -2,13 +2,14 @@ package cn.ligen.server.bill.service.impl;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.ligen.server.bill.entity.BillCategoryEnum;
+import cn.ligen.server.bill.entity.BillCategory;
 import cn.ligen.server.bill.entity.BillEntity;
 import cn.ligen.server.bill.entity.query.BillQuery;
 import cn.ligen.server.bill.entity.vo.OverViewVo;
 import cn.ligen.server.bill.mapper.BillMapper;
 import cn.ligen.server.bill.service.BillService;
 import cn.ligen.server.common.util.UserContextHolder;
+import cn.ligen.server.redis.RedisUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -30,12 +31,14 @@ import java.util.Map;
 public class BillServiceImpl implements BillService {
 
     private final BillMapper billMapper;
+    private final RedisUtil redisUtil;
 
     @Override
     public Integer addBill(BillEntity bill) {
         bill.setCreateTime(LocalDateTime.now());
-        bill.setMessage(BillCategoryEnum.getMessage(bill.getCode()));
-        bill.setFlag(BillCategoryEnum.getIsCost(bill.getCode()));
+        BillCategory category = (BillCategory) redisUtil.get(String.valueOf(bill.getCode()));
+        bill.setMessage(category.getMessage());
+        bill.setFlag(category.getStatus());
         Map<String, Object> user = (Map<String, Object>) UserContextHolder.getUser();
         bill.setUserId((Integer) user.get("id"));
         int cnt = billMapper.insert(bill);
@@ -86,7 +89,7 @@ public class BillServiceImpl implements BillService {
         // 总支出
         BigDecimal spend = new BigDecimal(0);
         // 按类别金额
-        Map<Integer, BigDecimal> groupByCode = new HashMap<>();
+        Map<String, BigDecimal> groupByCode = new HashMap<>();
         // 按日期分类
         String format = "yyyy-MM-dd";
         if (query.getStartTime().getYear() != query.getEndTime().getYear()
@@ -97,14 +100,14 @@ public class BillServiceImpl implements BillService {
         // value:
         //      key: 支出或收入, false收入，true支出
         //      value: 金额
-        Map<String, Map<Boolean, BigDecimal>> groupByDate = new HashMap<>();
+        Map<String, Map<Integer, BigDecimal>> groupByDate = new HashMap<>();
         for (BillEntity bill : list) {
-            Map<Boolean, BigDecimal> dateGroup = groupByDate.getOrDefault(LocalDateTimeUtil.format(bill.getCostTime(), format), new HashMap<>());
+            Map<Integer, BigDecimal> dateGroup = groupByDate.getOrDefault(LocalDateTimeUtil.format(bill.getCostTime(), format), new HashMap<>());
             BigDecimal tmp = dateGroup.getOrDefault(bill.getFlag(), BigDecimal.ZERO);
             tmp = tmp.add(bill.getCost());
             dateGroup.put(bill.getFlag(), tmp);
             groupByDate.put(LocalDateTimeUtil.format(bill.getCostTime(), format), dateGroup);
-            if (bill.getFlag()) {
+            if (bill.getFlag() == 1) {
                 // 支出
                 spend = spend.add(bill.getCost());
             } else {
@@ -112,9 +115,9 @@ public class BillServiceImpl implements BillService {
                 income = income.add(bill.getCost());
             }
             // 分类总金额
-            BigDecimal sum = groupByCode.getOrDefault(bill.getCode(), BigDecimal.ZERO);
+            BigDecimal sum = groupByCode.getOrDefault(bill.getMessage(), BigDecimal.ZERO);
             sum = sum.add(bill.getCost());
-            groupByCode.put(bill.getCode(), sum);
+            groupByCode.put(bill.getMessage(), sum);
         }
 
         vo.setIncome(income);
