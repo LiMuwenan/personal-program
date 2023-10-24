@@ -33,7 +33,7 @@ public class BillCategoryServiceImpl implements BillCategoryService {
         );
         // 查到的种类信息放到缓存里，方便取用
         for (BillCategory billCategory : billCategories) {
-            redisUtil.set(String.valueOf(billCategory.getCode()), billCategory, ExpireTimeConstant.MINUTE_ONE_HOUR);
+            redisUtil.set(String.valueOf(billCategory.getCode()), billCategory);
         }
         return billCategories;
     }

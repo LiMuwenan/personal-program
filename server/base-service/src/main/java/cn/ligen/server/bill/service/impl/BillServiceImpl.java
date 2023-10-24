@@ -8,6 +8,7 @@ import cn.ligen.server.bill.entity.query.BillQuery;
 import cn.ligen.server.bill.entity.vo.OverViewVo;
 import cn.ligen.server.bill.mapper.BillMapper;
 import cn.ligen.server.bill.service.BillService;
+import cn.ligen.server.common.exception.BadRequestException;
 import cn.ligen.server.common.util.UserContextHolder;
 import cn.ligen.server.redis.RedisUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -127,5 +128,22 @@ public class BillServiceImpl implements BillService {
         vo.setGroupByDate(groupByDate);
 
         return vo;
+    }
+
+    @Override
+    public void updateBill(BillEntity bill) {
+        BillCategory category = (BillCategory) redisUtil.get(String.valueOf(bill.getCode()));
+        if (category == null) {
+            throw new BadRequestException("选择种类编码错误");
+        }
+        billMapper.updateById(bill);
+    }
+
+    @Override
+    public void deleteBill(List<Integer> ids) {
+        billMapper.delete(
+                new LambdaQueryWrapper<BillEntity>()
+                        .in(BillEntity::getId, ids)
+        );
     }
 }

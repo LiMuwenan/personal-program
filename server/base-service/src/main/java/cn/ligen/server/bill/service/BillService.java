@@ -35,5 +35,21 @@ public interface BillService {
      */
     List<BillEntity> queryBillList(BillQuery query, Page<BillEntity> page);
 
+    /**
+     * 统计账务总览
+     * @param query
+     * @return
+     */
     OverViewVo billStat(BillQuery query);
+
+    /**
+     * 更新账单信息
+     */
+    void updateBill(BillEntity bill);
+
+    /**
+     * 删除账单
+     * @param ids
+     */
+    void deleteBill(List<Integer> ids);
 }
