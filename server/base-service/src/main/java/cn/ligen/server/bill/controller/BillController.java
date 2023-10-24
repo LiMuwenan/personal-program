@@ -3,13 +3,13 @@ package cn.ligen.server.bill.controller;
 import cn.ligen.server.bill.entity.BillEntity;
 import cn.ligen.server.bill.entity.dto.BillDto;
 import cn.ligen.server.bill.entity.mapper.BillEntityStruct;
+import cn.ligen.server.bill.entity.mapper.BillEntityStructImpl;
 import cn.ligen.server.bill.entity.query.BillQuery;
 import cn.ligen.server.bill.entity.vo.BillVo;
 import cn.ligen.server.bill.service.BillService;
 import cn.ligen.server.common.util.CommonPage;
 import cn.ligen.server.common.util.CommonResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -42,7 +41,7 @@ public class BillController {
             @Parameter(name = "title", description = "账单名称", required = true),
             @Parameter(name = "code", description = "账单类型", required = true),
             @Parameter(name = "costTime", description = "账单花费时间", required = true),
-            @Parameter(name = "cost", description = "账单花费金额", required = true)
+            @Parameter(name = "cost", description = "账单花费金额", required = true),
     })
     public CommonResult<Object> addBill(@Validated({BillDto.Add.class}) @RequestBody BillDto dto) {
         BillEntity entity = BillEntityStruct.INSTANCE.toEntity(dto);
@@ -67,6 +66,32 @@ public class BillController {
         return CommonResult.success(cnt);
     }
 
+    @Operation(summary = "修改账单")
+    @PostMapping("/update")
+    @Parameters({
+            @Parameter(name = "id", description = "账单id", required = true),
+            @Parameter(name = "title", description = "账单名称", required = true),
+            @Parameter(name = "code", description = "账单类型", required = true),
+            @Parameter(name = "costTime", description = "账单花费时间", required = true),
+            @Parameter(name = "cost", description = "账单花费金额", required = true),
+    })
+    public CommonResult<Object> billUpdate(@Validated({BillDto.Update.class}) @RequestBody BillDto dto) {
+        BillEntity entity = BillEntityStructImpl.INSTANCE.toEntity(dto);
+        billService.updateBill(entity);
+        return CommonResult.success();
+    }
+
+    @Operation(summary = "删除账单")
+    @PostMapping("/delete")
+    @Parameters({
+            @Parameter(name = "ids", description = "要删除账单列表", required = true),
+    })
+    public CommonResult<Object> billDelete(@RequestBody BillDto dto) {
+        billService.deleteBill(dto.getIds());
+
+        return CommonResult.success();
+    }
+
     @Operation(summary = "获取账单列表")
     @GetMapping("/list")
     @Parameters({
@@ -76,7 +101,7 @@ public class BillController {
             @Parameter(name = "lowCost" ,description = "账单花费金额", required = true),
             @Parameter(name = "highCost" ,description = "账单花费金额", required = true)
     })
-    public CommonResult<CommonPage<BillVo>> billList(BillQuery query, Page page) {
+    public CommonResult<CommonPage<BillVo>> billList(BillQuery query, Page<BillEntity>  page) {
         List<BillEntity> billEntities = billService.queryBillList(query, page);
         List<BillVo> billVos = new ArrayList<>();
         for (BillEntity billEntity : billEntities) {
@@ -103,10 +128,5 @@ public class BillController {
         // 前端请求默认今年来
         // 也可具体选时间，由前端自己生成时间
         return CommonResult.success(billService.billStat(query));
-    }
-
-    @GetMapping("/test")
-    public CommonResult<Object> test(@JsonFormat(pattern = "YYYY-MM-DD") LocalDateTime time) {
-        return CommonResult.success(time);
     }
 }

@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
  */
 @Data
 public class BillVo {
+    @Schema(description = "账单id")
+    private Integer id;
     @Schema(description = "账单种类名称")
     private String message;
     @Schema(description = "账单种类编号")
