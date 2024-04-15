@@ -136,6 +136,7 @@ public class BillServiceImpl implements BillService {
         if (category == null) {
             throw new BadRequestException("选择种类编码错误");
         }
+        bill.setMessage(category.getMessage());
         billMapper.updateById(bill);
     }
 
