@@ -1,0 +1,18 @@
+FROM openjdk:17-ea-alpine as jdk17-alpine
+# 抽jre
+RUN apk add --no-cache binutils
+RUN jlink \
+         --add-modules ALL-MODULE-PATH \
+         --strip-debug \
+         --no-man-pages \
+         --no-header-files \
+         --compress=2 \
+         --output /jre
+FROM alpine:latest
+ENV JAVA_HOME=/jre
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+COPY --from=jdk17-alpine /jre ${JAVA_HOME}
+# 复制jar包
+ENV SPRING_PARAM=""
+COPY target/base-service-v0.0.1.jar ./app.jar
+CMD ["sh", "-c", "java -jar app.jar $SPRING_PARAM"]
