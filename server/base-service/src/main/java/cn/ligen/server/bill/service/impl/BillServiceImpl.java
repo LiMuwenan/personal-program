@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,7 +91,11 @@ public class BillServiceImpl implements BillService {
         // 总支出
         BigDecimal spend = new BigDecimal(0);
         // 按类别金额
-        Map<String, BigDecimal> groupByCode = new HashMap<>();
+        List<Map<String, BigDecimal>> groupByCode = new ArrayList<>();
+        Map<String, BigDecimal> flag0Map = new HashMap<>();
+        Map<String, BigDecimal> flag1Map = new HashMap<>();
+        groupByCode.add(flag0Map);
+        groupByCode.add(flag1Map);
         // 按日期分类
         String format = "yyyy-MM-dd";
         if (query.getStartTime().getYear() != query.getEndTime().getYear()
@@ -116,9 +121,10 @@ public class BillServiceImpl implements BillService {
                 income = income.add(bill.getCost());
             }
             // 分类总金额
-            BigDecimal sum = groupByCode.getOrDefault(bill.getMessage(), BigDecimal.ZERO);
-            sum = sum.add(bill.getCost());
-            groupByCode.put(bill.getMessage(), sum);
+            groupByCode.get(bill.getFlag()).merge(bill.getMessage(), bill.getCost(), BigDecimal::add);
+//            BigDecimal sum = groupByCode.getOrDefault(bill.getMessage(), BigDecimal.ZERO);
+//            sum = sum.add(bill.getCost());
+//            groupByCode.put(bill.getMessage(), sum);
         }
 
         vo.setIncome(income);
