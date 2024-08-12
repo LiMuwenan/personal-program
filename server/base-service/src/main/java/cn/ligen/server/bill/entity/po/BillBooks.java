@@ -7,9 +7,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * @author: ligen
- * @date: 2024/8/12 9:40
- * @description:
+ * @author ligen
+ * @date 2024/8/12 9:40
+ * @description
  */
 @Data
 @Schema(description = "帐本分类")

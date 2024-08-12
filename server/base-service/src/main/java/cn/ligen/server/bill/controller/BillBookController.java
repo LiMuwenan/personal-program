@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author: ligen
- * @date: 2024/8/12 10:31
- * @description:
+ * @author ligen
+ * @date 2024/8/12 10:31
+ * @description
  */
 @RestController
 @Tag(name = "账本接口")

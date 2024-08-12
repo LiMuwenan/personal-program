@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author: ligen
- * @date: 2024/8/12 10:38
- * @description:
+ * @author ligen
+ * @date 2024/8/12 10:38
+ * @description
  */
 @Service
 public class BillBookServiceImpl extends ServiceImpl<BillBooksMapper, BillBooks> implements BillBookService {

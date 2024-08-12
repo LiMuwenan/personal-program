@@ -7,9 +7,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
 
 /**
- * @author: ligen
- * @date: 2024/8/12 10:37
- * @description:
+ * @author ligen
+ * @date 2024/8/12 10:37
+ * @description
  */
 public interface BillBookService extends IService<BillBooks> {
 
