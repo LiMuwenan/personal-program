@@ -1,6 +1,6 @@
 package cn.ligen.server.bill.controller;
 
-import cn.ligen.server.bill.entity.BillCategory;
+import cn.ligen.server.bill.entity.po.BillCategory;
 import cn.ligen.server.bill.service.BillCategoryService;
 import cn.ligen.server.common.util.CommonResult;
 import io.swagger.v3.oas.annotations.Operation;

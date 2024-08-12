@@ -1,6 +1,6 @@
 package cn.ligen.server.bill.entity.mapper;
 
-import cn.ligen.server.bill.entity.BillEntity;
+import cn.ligen.server.bill.entity.po.BillEntity;
 import cn.ligen.server.bill.entity.dto.BillDto;
 import cn.ligen.server.bill.entity.vo.BillVo;
 import org.mapstruct.Mapper;

@@ -1,6 +1,6 @@
 package cn.ligen.server.bill.service;
 
-import cn.ligen.server.bill.entity.BillEntity;
+import cn.ligen.server.bill.entity.po.BillEntity;
 import cn.ligen.server.bill.entity.query.BillQuery;
 import cn.ligen.server.bill.entity.vo.OverViewVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

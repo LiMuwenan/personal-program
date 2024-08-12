@@ -1,6 +1,6 @@
 package cn.ligen.server.bill.controller;
 
-import cn.ligen.server.bill.entity.BillEntity;
+import cn.ligen.server.bill.entity.po.BillEntity;
 import cn.ligen.server.bill.entity.dto.BillDto;
 import cn.ligen.server.bill.entity.mapper.BillEntityStruct;
 import cn.ligen.server.bill.entity.mapper.BillEntityStructImpl;

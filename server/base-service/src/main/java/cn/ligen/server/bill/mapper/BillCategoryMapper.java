@@ -1,6 +1,6 @@
 package cn.ligen.server.bill.mapper;
 
-import cn.ligen.server.bill.entity.BillCategory;
+import cn.ligen.server.bill.entity.po.BillCategory;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

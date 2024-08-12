@@ -1,9 +1,8 @@
 package cn.ligen.server.bill.service.impl;
 
-import cn.ligen.server.bill.entity.BillCategory;
+import cn.ligen.server.bill.entity.po.BillCategory;
 import cn.ligen.server.bill.mapper.BillCategoryMapper;
 import cn.ligen.server.bill.service.BillCategoryService;
-import cn.ligen.server.constant.ExpireTimeConstant;
 import cn.ligen.server.redis.RedisUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.annotation.Resource;

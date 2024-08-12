@@ -1,4 +1,4 @@
-package cn.ligen.server.bill.entity;
+package cn.ligen.server.bill.entity.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

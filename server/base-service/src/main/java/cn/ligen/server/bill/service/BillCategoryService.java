@@ -1,6 +1,6 @@
 package cn.ligen.server.bill.service;
 
-import cn.ligen.server.bill.entity.BillCategory;
+import cn.ligen.server.bill.entity.po.BillCategory;
 
 import java.util.List;
 
