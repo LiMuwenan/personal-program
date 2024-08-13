@@ -32,4 +32,13 @@ public interface BillMapper extends BaseMapper<BillEntity> {
      * @return
      */
     Long selectPageCount(Integer userId, BillQuery query);
+
+    /**
+     * 查询列表
+     *
+     * @param userId
+     * @param query
+     * @return
+     */
+    List<BillEntity> selectList(Integer userId, BillQuery query);
 }

@@ -1,7 +1,6 @@
 package cn.ligen.server.bill.service.impl;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.ligen.server.bill.entity.mapper.BillEntityStruct;
 import cn.ligen.server.bill.entity.po.BillBookItem;
 import cn.ligen.server.bill.entity.po.BillCategory;
@@ -88,14 +87,7 @@ public class BillServiceImpl implements BillService {
     }
 
     public OverViewVo billStat(BillQuery query) {
-        List<BillEntity> list = billMapper.selectList(
-                new LambdaQueryWrapper<BillEntity>()
-                        .in(query.getCodes() != null, BillEntity::getCode, query.getCodes())
-                        .le(query.getHighCost() != null, BillEntity::getCost, query.getHighCost())
-                        .ge(query.getLowCost() != null, BillEntity::getCost, query.getLowCost())
-                        .le(query.getEndTime() != null, BillEntity::getCostTime, query.getEndTime())
-                        .ge(query.getStartTime() != null, BillEntity::getCostTime, query.getStartTime())
-        );
+        List<BillEntity> list = billMapper.selectList(null, query);
 
         OverViewVo vo = new OverViewVo();
         // 总收入
