@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ligen.server.bill.mapper.BillMapper">
+
+    <sql id="pageSql">
+        <where>
+            user_id = ${userId}
+            <if test="query.bookId != null">
+                AND id in (
+                select id from bill_book_item where book_id = ${query.bookId}
+                )
+            </if>
+            <if test="query.title != null and query.title != '' ">
+                AND title like CONCAT('%', #{query.title}, '%')
+            </if>
+            <if test="query.startTime != null">
+                AND start_time >= ${query.startTime}
+            </if>
+            <if test="query.endTime != null">
+                AND end_time &lt;= ${endTime}
+            </if>
+            <if test="query.codes != null and query.codes.size() > 0">
+                AND code in
+                <foreach item="code" collection="query.codes" separator="," open="(" close=")">
+                    ${code}
+                </foreach>
+            </if>
+            <if test="query.lowCost != null">
+                AND cost >= ${query.lowCost}
+            </if>
+            <if test="query.highCost != null">
+                AND cost &lt;= ${query.highCost}
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectPage" resultType="BillEntity">
+        select * from bill_item
+        <include refid="pageSql"/>
+        order by cost_time desc, id desc
+        limit ${limit} offset ${offset}
+    </select>
+
+    <select id="selectPageCount" resultType="long">
+        select count(1) from bill_item
+        <include refid="pageSql"></include>
+    </select>
+
+</mapper>

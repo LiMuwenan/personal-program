@@ -5,6 +5,7 @@ import cn.ligen.server.bill.entity.dto.BillDto;
 import cn.ligen.server.bill.entity.mapper.BillEntityStruct;
 import cn.ligen.server.bill.entity.mapper.BillEntityStructImpl;
 import cn.ligen.server.bill.entity.query.BillQuery;
+import cn.ligen.server.bill.entity.vo.BillDetailVo;
 import cn.ligen.server.bill.entity.vo.BillVo;
 import cn.ligen.server.bill.service.BillService;
 import cn.ligen.server.common.util.CommonPage;
@@ -45,7 +46,7 @@ public class BillController {
     })
     public CommonResult<Object> addBill(@Validated({BillDto.Add.class}) @RequestBody BillDto dto) {
         BillEntity entity = BillEntityStruct.INSTANCE.toEntity(dto);
-        Integer cnt = billService.addBill(entity);
+        Integer cnt = billService.addBill(entity, dto.getBillBooks());
         return CommonResult.success(null);
     }
 
@@ -77,7 +78,7 @@ public class BillController {
     })
     public CommonResult<Object> billUpdate(@Validated({BillDto.Update.class}) @RequestBody BillDto dto) {
         BillEntity entity = BillEntityStructImpl.INSTANCE.toEntity(dto);
-        billService.updateBill(entity);
+        billService.updateBill(entity, dto.getBillBooks());
         return CommonResult.success();
     }
 
@@ -101,7 +102,7 @@ public class BillController {
             @Parameter(name = "lowCost" ,description = "账单花费金额", required = true),
             @Parameter(name = "highCost" ,description = "账单花费金额", required = true)
     })
-    public CommonResult<CommonPage<BillVo>> billList(BillQuery query, Page<BillEntity>  page) {
+    public CommonResult<CommonPage<BillVo>> billList(BillQuery query, Page<BillEntity> page) {
         List<BillEntity> billEntities = billService.queryBillList(query, page);
         List<BillVo> billVos = new ArrayList<>();
         for (BillEntity billEntity : billEntities) {
@@ -113,6 +114,12 @@ public class BillController {
         commonPage.setRecords(billVos);
         commonPage.setCurrent(page.getCurrent());
         return CommonResult.success(commonPage);
+    }
+
+    @Operation(summary = "获取账单详情")
+    @GetMapping("/detail")
+    public CommonResult<BillDetailVo> queryBillDetail(Integer id) {
+        return CommonResult.success(billService.queryBillDetail(id));
     }
 
     @Operation(summary = "统计账单")

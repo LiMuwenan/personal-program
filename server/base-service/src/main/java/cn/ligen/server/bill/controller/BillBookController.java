@@ -8,10 +8,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author ligen
@@ -37,7 +34,7 @@ public class BillBookController {
     }
 
     @Operation(summary = "查询账本")
-    @PostMapping("/query")
+    @GetMapping("/query")
     public CommonResult<Object> queryBookList() {
         return CommonResult.success(billBookService.queryBillBooks());
     }

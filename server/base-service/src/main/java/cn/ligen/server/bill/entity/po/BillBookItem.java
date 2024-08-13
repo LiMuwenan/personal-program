@@ -15,8 +15,13 @@ import lombok.Data;
 public class BillBookItem {
 
     @Schema(description = "账本id")
-    private Long bookId;
+    private Integer bookId;
 
     @Schema(description = "账单id")
-    private Long itemId;
+    private Integer itemId;
+
+    public BillBookItem(Integer bookId, Integer itemId) {
+        this.bookId = bookId;
+        this.itemId = itemId;
+    }
 }

@@ -33,4 +33,8 @@ public class BillQuery {
     @Schema(description = "查询金额范围")
     private BigDecimal lowCost = new BigDecimal(0);
     private BigDecimal highCost = new BigDecimal(100000000);
+
+    @Schema(description = "账本id")
+    private Integer bookId;
+
 }

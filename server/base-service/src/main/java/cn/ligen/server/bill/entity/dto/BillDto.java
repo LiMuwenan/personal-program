@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author ligen
@@ -46,6 +47,11 @@ public class BillDto {
 
     @Schema(description = "删除")
     private List<Integer> ids;
+
+//    @NotNull(message = "所属账本不能为空", groups = {Add.class, Update.class})
+//    @NotEmpty(message = "所属账本不能为空", groups = {Add.class, Update.class})
+    @Schema(description = "所属账本")
+    private Set<Integer> billBooks;
 
     public @interface Add {}
     public @interface Query {}

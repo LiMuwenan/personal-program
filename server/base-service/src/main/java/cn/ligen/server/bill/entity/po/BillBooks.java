@@ -18,8 +18,11 @@ public class BillBooks {
 
     @Schema(description = "id")
     @TableId(type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     @Schema(description = "账本名称")
     private String name;
+
+    @Schema(description = "排序")
+    private String code;
 }

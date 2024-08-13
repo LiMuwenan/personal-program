@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ligen.server.bill.mapper.BillBookItemMapper">
+
+    <insert id="saveBatch">
+        insert into bill_book_item(book_id, item_id) values
+            <foreach collection="billBookItem" item="item" index="index" separator=",">
+                (${item.bookId}, ${item.itemId})
+            </foreach>
+
+    </insert>
+
+</mapper>
